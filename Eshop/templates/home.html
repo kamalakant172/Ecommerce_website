@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_filter %}
+{% block title %}
+Home
+{% endblock title %}
+{% block content %}
+<div class="container-fluid my-3">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'images/banner_1.webp' %}" class="d-block w-100" alt="banner_1">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/banner_2.webp' %}" class="d-block w-100" alt="banner_2">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/banner_3.webp' %}" class="d-block w-100" alt="banner_3">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+</div>
+{% comment "" %}main content{% endcomment %}
+<div class="container-fluid text-center">
+    <div class="row">
+        {% for i in category %}
+        <div class="col">
+            <a href="?category_id={{i.id}}">
+                <img src={{i.cat_image.url}} alt="" width=100><br>
+            <strong>
+                {{i.name}}
+            </strong>
+            </a>
+            
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% comment "" %}All Product{% endcomment %}
+<div class="container-fluid my-3">
+    <div class="row">
+        {% for product in pro %}
+        <div class="col-4 d-flex justify-content-around">
+            <div class="card" style="width: 18rem;">
+                <img src={{product.product_image.url}} class="card-img-top" alt="no image" height=150>
+                <div class="card-body" style="height: 10rem">
+                 <h5 class="card-title">{{product.product_name}}</h5>
+                 <h5 class="card-title">Rs.{{product.price}}</h5>
+                 <p class="card-text text-wrap">{{product.desc}}</p>
+                 
+                </div>
+                <div class="card-footer text-center">
+                  {% if product|isexitincart:request.session.cart %}
+                  <div class="row">
+                    <form action="#{{product.id}}" method="post" class="col-2">
+                    {% csrf_token %}
+                    <input type="text" name="cart_id" value={{product.id}} hidden>
+                    <input type="text" name="minus" value={{product.id}} hidden>
+                    <button type="submit" class="btn btn-primary">-</button>
+                  </form>
+                    <div class="col">{{product|cartquantity:request.session.cart}}</div>
+                    <form action="#{{product.id}}" method="post" class="col-2">
+                    {% csrf_token %}
+                    <input type="text" name="cart_id" value={{product.id}} hidden>
+                    <button type="submit" class="btn btn-primary">+</button>
+                  </form>
+                  </div>
+                  {% else %}
+                  <form action="#{{product.id}}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="cart_id" value={{product.id}} hidden>
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                  </form>
+                   {% endif %} 
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+
