@@ -4,9 +4,11 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.http import HttpResponse
 from django.contrib.auth.hashers import check_password, make_password
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, status
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, OrderDetails, CategoryDetails
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 def index(request):
@@ -131,3 +133,14 @@ def ord_info(request):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = signup.objects.all()
     serializer_class = UserSerializer
+
+    
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset= order_dtls.objects.all()
+    serializer_class = OrderDetails
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset= category.objects.all()
+    serializer_class= CategoryDetails   

@@ -5,9 +5,9 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework import routers, serializers, viewsets
+from .router import router
 
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
+
 
 urlpatterns = [
     path('', views.index, name='home'),
