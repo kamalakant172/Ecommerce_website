@@ -77,12 +77,13 @@ WSGI_APPLICATION = 'shopping.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME': 'eshop_dba',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': '',
+        # 'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': 'eshop_dba',
+        # 'HOST': 'localhost',
+        # 'USER': 'root',
+        # 'PASSWORD': '',
     }
 }
 
